@@ -2,8 +2,9 @@
 import AppLayout from '@/layouts/AppLayout.vue';
 import { dashboard } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 import { formatDistance, parseISO } from 'date-fns';
+import { computed } from 'vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -35,9 +36,36 @@ const props = defineProps<{
     };
 }>();
 
+const messagesSortedByCreatedAt = computed(() => {
+    return props.thread.messages.slice().sort((a, b) => {
+        return (
+            new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+        );
+    });
+});
+
 const formattedDate = (dateString: string) => {
     return formatDistance(parseISO(dateString), new Date(), {
         addSuffix: true,
+    });
+};
+
+const messageForm = useForm({
+    body: '',
+});
+
+const createMessage = () => {
+    // Placeholder function for creating a new message
+    console.log('sending message:', messageForm.body);
+    messageForm.reset();
+    messageForm.post(`/threads/${props.thread.id}/messages`, {
+        preserveScroll: true,
+        onSuccess: () => {
+            messageForm.reset();
+        },
+        onError: (errors) => {
+            console.error('Error sending message:', errors);
+        },
     });
 };
 </script>
@@ -72,7 +100,7 @@ const formattedDate = (dateString: string) => {
             </div>
             <div v-else class="space-y-4">
                 <div
-                    v-for="message in thread.messages"
+                    v-for="message in messagesSortedByCreatedAt"
                     :key="message.id"
                     class="rounded-lg border p-4 transition-shadow hover:shadow-md"
                 >
@@ -87,6 +115,21 @@ const formattedDate = (dateString: string) => {
                         </span>
                     </div>
                 </div>
+                <form @submit.prevent="createMessage" class="mt-4">
+                    <textarea
+                        v-model="messageForm.body"
+                        class="w-full rounded border p-2"
+                        rows="4"
+                        placeholder="Type your message here..."
+                        @keyup.enter="createMessage"
+                    ></textarea>
+                    <button
+                        type="submit"
+                        class="mt-2 rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+                    >
+                        Send
+                    </button>
+                </form>
             </div>
         </div>
     </div>
