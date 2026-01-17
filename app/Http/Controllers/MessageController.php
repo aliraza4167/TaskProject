@@ -29,7 +29,7 @@ class MessageController extends Controller
      */
     public function store(Request $request, Thread $thread)
     {
-        dd($request->all(), $thread);
+        dd($request->all());
     }
 
     /**

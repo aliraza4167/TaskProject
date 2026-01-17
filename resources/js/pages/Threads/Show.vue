@@ -56,8 +56,8 @@ const messageForm = useForm({
 
 const createMessage = () => {
     // Placeholder function for creating a new message
-    console.log('sending message:', messageForm.body);
-    messageForm.reset();
+    // console.log('sending message:', messageForm.body);
+    // messageForm.reset();
     messageForm.post(`/threads/${props.thread.id}/messages`, {
         preserveScroll: true,
         onSuccess: () => {
