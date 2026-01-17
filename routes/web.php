@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MessageController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -21,6 +22,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('tasks', TaskController::class);
 
     Route::resource('threads', ThreadController::class);
+
+    Route::post('threads/{thread}/messages', [MessageController::class, 'store'])->name('threads.messages.store');
 
     Route::get('dashboard', function() {
         return Inertia::render('Dashboard');

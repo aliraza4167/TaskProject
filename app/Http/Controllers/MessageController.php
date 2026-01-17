@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Message;
 use App\Models\Thread;
 use Illuminate\Http\Request;
 
-class ThreadController extends Controller
+class MessageController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return inertia('Threads/Index', [
-            'threads' => Thread::with('participants', 'messages')->get(),
-        ]);
+        //
     }
 
     /**
@@ -28,25 +27,23 @@ class ThreadController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Thread $thread)
     {
-        //
+        dd($request->all(), $thread);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Thread $thread)
+    public function show(Message $message)
     {
-        return inertia('Threads/Show', [
-            'thread' => $thread->load('participants', 'messages.user'),
-        ]);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Thread $thread)
+    public function edit(Message $message)
     {
         //
     }
@@ -54,15 +51,15 @@ class ThreadController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Thread $thread)
+    public function update(Request $request, Message $message)
     {
-        dd($request->all(), $thread);
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Thread $thread)
+    public function destroy(Message $message)
     {
         //
     }
