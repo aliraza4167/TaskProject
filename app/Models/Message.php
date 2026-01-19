@@ -10,6 +10,10 @@ class Message extends Model
     /** @use HasFactory<\Database\Factories\MessageFactory> */
     use HasFactory;
 
+    protected $fillable = [
+        'body',
+    ];
+
     public function thread()
     {
         return $this->belongsTo(Thread::class);

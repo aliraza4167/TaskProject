@@ -12,9 +12,15 @@ class ThreadController extends Controller
      */
     public function index()
     {
+        $user = auth()->user();
         return inertia('Threads/Index', [
-            'threads' => Thread::with('participants', 'messages')->get(),
+            'threads' => Thread::whereHas('participants', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })->with('participants', 'messages')->get(),
         ]);
+        // return inertia('Threads/Index', [
+        //     'threads' => Thread::with('participants', 'messages')->get(),
+        // ]);
     }
 
     /**

@@ -29,7 +29,19 @@ class MessageController extends Controller
      */
     public function store(Request $request, Thread $thread)
     {
-        dd($request->all());
+        // dd($request->all(), $thread);
+        $validated = $request->validate([
+            'body' => 'required|string',
+        ]);
+
+        $message = Message::make($validated);
+        
+        $message->user()->associate($request->user());
+        $message->thread()->associate($thread);
+
+        $message->save();
+        // $thread->messages()->create($validated);
+        return redirect()->route('threads.show', $thread);
     }
 
     /**
