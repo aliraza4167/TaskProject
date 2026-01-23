@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
 
             Message::factory(3)->create([
                 'thread_id' => $thread->id,
-                'user_id' => $users->random()->id,
+                'user_id' => $randomUserId,
             ]);
         }
     }
