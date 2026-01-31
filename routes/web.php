@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FriendshipController;
 use App\Http\Controllers\MessageController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -28,6 +29,12 @@ Route::middleware('auth')->group(function () {
     Route::get('dashboard', function() {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    // Friendship routes
+    Route::post('/friends/{user}/send', [FriendshipController::class, 'sendRequest']);
+    Route::post('/friends/{friendship}/accept', [FriendshipController::class, 'acceptRequest']);
+    Route::post('/friends/{friendship}/decline', [FriendshipController::class, 'declineRequest']);
+
 });
 
 require __DIR__.'/settings.php';
