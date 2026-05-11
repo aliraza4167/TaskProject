@@ -19,7 +19,7 @@ class MessageFactory extends Factory
         return [
             'thread_id' => \App\Models\Thread::factory(),
             'user_id' => \App\Models\User::factory(),
-            'body' => $this->faker->paragraph(),
+            'body' => $this->faker->realText(200),
             'created_at' => $this->faker->dateTimeBetween('-1 month', 'now'),
         ];
     }

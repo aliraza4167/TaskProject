@@ -17,7 +17,7 @@ class ThreadFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->sentence(),
+            'title' => $this->faker->realText(15),
         ];
     }
 }
